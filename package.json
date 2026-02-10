@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
+ "scripts": {
   "build": "npm install --prefix frontend --include=dev && npm run build --prefix frontend && rm -rf backend/public && cp -r frontend/dist backend/public",
-  "start": "npm install --prefix backend && npm start --prefix backend"
+  "start": "node backend/src/server.js"
 },
+
 
 
 
