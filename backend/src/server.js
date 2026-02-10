@@ -20,7 +20,8 @@ if (ENV.NODE_ENV === 'production') {
 
     app.use(express.static(frontendPath));
 
-    app.get('/*', (req, res) => {
+    // ✅ Express 5 fallback fix
+    app.use((req, res) => {
         res.sendFile(path.join(frontendPath, 'index.html'));
     });
 }
