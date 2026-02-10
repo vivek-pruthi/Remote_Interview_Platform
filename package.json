@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
-    "start": "node backend/src/server.js"
+    "build": "npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm install --prefix backend && npm start --prefix backend"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/vivek-pruthi/Remote_Interview_Platform/issues"
   },
-  "homepage": "https://github.com/vivek-pruthi/Remote_Interview_Platform#readme"
+  "homepage": "https://github.com/vivek-pruthi/Remote_Interview_Platform#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
