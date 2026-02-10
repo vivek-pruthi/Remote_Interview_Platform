@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-
 import { ENV } from './lib/env.js';
 
 const app = express();
