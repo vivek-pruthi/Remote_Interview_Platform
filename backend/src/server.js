@@ -4,6 +4,8 @@ import { ENV } from './lib/env.js';
 
 const app = express();
 
+console.log("PROJECT ROOT:", process.cwd());
+
 app.get('/health', (req, res) => {
     res.status(200).json({ message: 'api is up and running' });
 });
@@ -16,6 +18,8 @@ if (ENV.NODE_ENV === 'production') {
 
     const frontendPath = path.join(process.cwd(), 'frontend', 'dist');
 
+    console.log("Frontend path:", frontendPath);
+
     app.use(express.static(frontendPath));
 
     app.use((req, res) => {
@@ -25,6 +29,6 @@ if (ENV.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () =>
-    console.log(`Server running on port ${PORT}`)
-);
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
