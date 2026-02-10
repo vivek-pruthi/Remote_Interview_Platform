@@ -17,6 +17,7 @@ if (ENV.NODE_ENV === 'production') {
     // Move two folders up from backend/src → project root
     const frontendPath = path.resolve('../../frontend/dist');
 
+
     app.use(express.static(frontendPath));
 
     app.use((req, res) => {
