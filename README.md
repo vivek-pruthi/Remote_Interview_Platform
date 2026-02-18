@@ -1,0 +1,1 @@
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/vivek-pruthi/Remote_Interview_Platform?utm_source=oss&utm_medium=github&utm_campaign=vivek-pruthi%2FRemote_Interview_Platform&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
