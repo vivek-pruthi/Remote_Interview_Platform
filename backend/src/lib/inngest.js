@@ -3,12 +3,12 @@ import { ConnectDB } from "./db.js";
 import { User } from "./models/User.js";
 
 
-export const inngest = new Inngest({ id: "CodeBrige" });
+export const inngest = new Inngest({ id: "CodeBridge" });
 const syncUser = inngest.createFunction(
     {id:"sync-user"},
     {event:"clerk/user.created"},
     async ({event}) => {
-        await ConnectDB()
+        await ConnectDB();
 
         const {id,email_addresses, first_name, last_name, image_url} = event.data;
 
@@ -30,7 +30,7 @@ const deleteUserFromDB = inngest.createFunction(
     {id:"delete-user-from-db"},
     {event:"clerk/user.deleted"},
     async ({event}) => {
-        await ConnectDB()
+        await ConnectDB();
 
         const {id} = event.data;
 
