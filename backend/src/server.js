@@ -169,6 +169,7 @@ app.get("/books", (req, res) => {
   res.json({ message: "Books endpoint working 📚" });
 });
 
+
 // -------- STATIC FILES --------
 const frontendPath = path.join(process.cwd(), "backend", "public");
 app.use(express.static(frontendPath));
