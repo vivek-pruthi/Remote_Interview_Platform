@@ -20,7 +20,7 @@ export const protectRoute = [
 
         } catch (error) {
             console.error("Error in protectRoute middleware:", error);
-            res.status(500).json({ msg: "Server error in authentication" });
+            res.status(500).json({ message: "Server error in authentication" });
         }
     },
 ];
