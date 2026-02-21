@@ -204,6 +204,58 @@
 // startServer();
 
 
+// import express from "express";
+// import cors from "cors";
+// import path from "path";
+// import { fileURLToPath } from "url";
+
+// import { connectDB } from "./lib/db.js";
+// import { serve } from "inngest/express";
+// import { inngest, functions } from "./lib/inngest.js";
+// import { clerkMiddleware } from "@clerk/express";
+// import chatRoutes from "./routes/chatRoutes.js";
+
+// // ESM dirname fix
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
+// const app = express();
+
+// /* ---------- MIDDLEWARE ---------- */
+// app.use(express.json());
+// app.use(cors());             // same-origin
+// app.use(clerkMiddleware());  // MUST have ()
+
+// /* ---------- API ROUTES ---------- */
+// app.get("/api/health", (req, res) => {
+//   res.json({ message: "API is healthy 🚀" });
+// });
+
+// app.use("/api/inngest", serve({ client: inngest, functions }));
+// app.use("/api/chat", chatRoutes);
+
+// /* ---------- FRONTEND SERVING ---------- */
+// const frontendDist = path.join(__dirname, "../../frontend/dist");
+
+// app.use(express.static(frontendDist));
+
+// app.get(/.*/, (req, res) => {
+//   res.sendFile(path.join(frontendDist, "index.html"));
+// });
+
+// /* ---------- START SERVER ---------- */
+// const startServer = async () => {
+//   await connectDB();
+
+//   const PORT = process.env.PORT || 5000;
+//   app.listen(PORT, () =>
+//     console.log(`🚀 Server running on port ${PORT}`)
+//   );
+// };
+
+// startServer();
+
+
 import express from "express";
 import cors from "cors";
 import path from "path";
@@ -215,7 +267,7 @@ import { inngest, functions } from "./lib/inngest.js";
 import { clerkMiddleware } from "@clerk/express";
 import chatRoutes from "./routes/chatRoutes.js";
 
-// ESM dirname fix
+// Fix __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -223,8 +275,8 @@ const app = express();
 
 /* ---------- MIDDLEWARE ---------- */
 app.use(express.json());
-app.use(cors());             // same-origin
-app.use(clerkMiddleware());  // MUST have ()
+app.use(cors());
+app.use(clerkMiddleware());
 
 /* ---------- API ROUTES ---------- */
 app.get("/api/health", (req, res) => {
@@ -237,20 +289,27 @@ app.use("/api/chat", chatRoutes);
 /* ---------- FRONTEND SERVING ---------- */
 const frontendDist = path.join(__dirname, "../../frontend/dist");
 
+// Serve static assets
 app.use(express.static(frontendDist));
 
-app.get(/.*/, (req, res) => {
+// SAFE catch-all (NO wildcard patterns)
+app.use((req, res) => {
   res.sendFile(path.join(frontendDist, "index.html"));
 });
 
 /* ---------- START SERVER ---------- */
 const startServer = async () => {
-  await connectDB();
+  try {
+    await connectDB();
 
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () =>
-    console.log(`🚀 Server running on port ${PORT}`)
-  );
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error("❌ Server failed to start:", err);
+    process.exit(1);
+  }
 };
 
 startServer();
