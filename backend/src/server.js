@@ -140,52 +140,253 @@
 // });
 
 
+// import express from "express";
+// import path from "path";
+// import cors from "cors";
+// import { connectDB } from "./lib/db.js";
+// import { ENV } from "./lib/env.js";
+// import {serve} from "inngest/express";
+// import { inngest, functions } from "./lib/inngest.js";
+// import { clerkMiddleware } from '@clerk/express';
+// import chatRoutes from "./routes/chatRoutes.js";
+
+
+// const app = express();
+
+// // middleware
+// app.use(express.json());
+// // crenentials:true , meaning?? => server allows a browser to send cookies on request
+// app.use(cors({ origin: ENV.CLIENT_URL, credentials:true }));
+
+// app.use(clerkMiddleware); // this adds auth field to request object: req.auth();
+
+// app.use("/api/inngest" , serve({client:inngest , functions}));
+// app.use("/api/chat" ,chatRoutes);
+
+
+
+// // -------- ROUTES --------
+// app.get("/health", (req, res) => {
+//   res.json({ message: "API is up and running 🚀" });
+// });
+
+// // app.get("/books", (req, res) => {
+// //   res.json({ message: "Books endpoint working 📚" });
+// // });
+
+
+// // // when you pass an array of middleware to Express, it automatically flattens abd executes them subsequently , one by one. 
+// // app.get("/video-calls",protectRoute, (req, res) => {
+// //   res.status(200).json({ msg: "This is the protected video calls endpoint", user: req.user });
+  
+// // });
+
+
+
+
+// // -------- STATIC FILES --------
+// const frontendPath = path.join(process.cwd(), "backend", "public");
+// app.use(express.static(frontendPath));
+
+// app.get(/.*/, (req, res) => {
+//   res.sendFile(path.join(frontendPath, "index.html"));
+// });
+
+// // -------- START SERVER --------
+// const startServer = async () => {
+//   await connectDB(); // ✅ Mongo connects here
+
+//   app.listen(ENV.PORT, () => {
+//     console.log(`🚀 Server is running on port ${ENV.PORT}`);
+//   });
+// };
+
+// startServer();
+
+
+// import express from "express";
+// import cors from "cors";
+// import path from "path";
+// import { fileURLToPath } from "url";
+
+// import { connectDB } from "./lib/db.js";
+// import { serve } from "inngest/express";
+// import { inngest, functions } from "./lib/inngest.js";
+// import { clerkMiddleware } from "@clerk/express";
+// import chatRoutes from "./routes/chatRoutes.js";
+
+// // ESM dirname fix
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
+// const app = express();
+
+// /* ---------- MIDDLEWARE ---------- */
+// app.use(express.json());
+// app.use(cors());             // same-origin
+// app.use(clerkMiddleware());  // MUST have ()
+
+// /* ---------- API ROUTES ---------- */
+// app.get("/api/health", (req, res) => {
+//   res.json({ message: "API is healthy 🚀" });
+// });
+
+// app.use("/api/inngest", serve({ client: inngest, functions }));
+// app.use("/api/chat", chatRoutes);
+
+// /* ---------- FRONTEND SERVING ---------- */
+// const frontendDist = path.join(__dirname, "../../frontend/dist");
+
+// app.use(express.static(frontendDist));
+
+// app.get(/.*/, (req, res) => {
+//   res.sendFile(path.join(frontendDist, "index.html"));
+// });
+
+// /* ---------- START SERVER ---------- */
+// const startServer = async () => {
+//   await connectDB();
+
+//   const PORT = process.env.PORT || 5000;
+//   app.listen(PORT, () =>
+//     console.log(`🚀 Server running on port ${PORT}`)
+//   );
+// };
+
+// startServer();
+
+
+// import express from "express";
+// import cors from "cors";
+// import path from "path";
+// import { fileURLToPath } from "url";
+
+// import { connectDB } from "./lib/db.js";
+// import { serve } from "inngest/express";
+// import { inngest, functions } from "./lib/inngest.js";
+// import { clerkMiddleware } from "@clerk/express";
+// import chatRoutes from "./routes/chatRoutes.js";
+
+// // Fix __dirname for ES modules
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
+// const app = express();
+
+// /* ---------- MIDDLEWARE ---------- */
+// app.use(express.json());
+// app.use(cors());
+// app.use(clerkMiddleware());
+
+// /* ---------- API ROUTES ---------- */
+// app.get("/api/health", (req, res) => {
+//   res.json({ message: "API is healthy 🚀" });
+// });
+
+// app.use("/api/inngest", serve({ client: inngest, functions }));
+// app.use("/api/chat", chatRoutes);
+
+// /* ---------- FRONTEND SERVING ---------- */
+// const frontendDist = path.join(__dirname, "../../frontend/dist");
+
+// // Serve static assets
+// app.use(express.static(frontendDist));
+
+// // SAFE catch-all (NO wildcard patterns)
+// app.use((req, res) => {
+//   res.sendFile(path.join(frontendDist, "index.html"));
+// });
+
+// /* ---------- START SERVER ---------- */
+// const startServer = async () => {
+//   try {
+//     await connectDB();
+
+//     const PORT = process.env.PORT || 5000;
+//     app.listen(PORT, () => {
+//       console.log(`🚀 Server running on port ${PORT}`);
+//     });
+//   } catch (err) {
+//     console.error("❌ Server failed to start:", err);
+//     process.exit(1);
+//   }
+// };
+
+// startServer();
+
 import express from "express";
 import path from "path";
 import cors from "cors";
+import { fileURLToPath } from "url";
+import { protectRoute } from "./middlewares/protectRoute.js";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
-import {serve} from "inngest/express";
+import { serve } from "inngest/express";
 import { inngest, functions } from "./lib/inngest.js";
-import { clerkMiddleware } from '@clerk/express';
+import { clerkMiddleware } from "@clerk/express";
 import chatRoutes from "./routes/chatRoutes.js";
 
+/* ---------- FIX __dirname (ESM) ---------- */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// middleware
+/* ---------- MIDDLEWARE ---------- */
 app.use(express.json());
-// crenentials:true , meaning?? => server allows a browser to send cookies on request
-app.use(cors({ origin: ENV.CLIENT_URL, credentials:true }));
 
-app.use(clerkMiddleware); // this adds auth field to request object: req.auth();
+// ✅ CORS (keep your ENV.CLIENT_URL logic)
+app.use(
+  cors({
+    origin: ENV.CLIENT_URL,
+    credentials: true,
+  })
+);
 
-app.use("/api/inngest" , serve({client:inngest , functions}));
-app.use("/api/chat" ,chatRoutes);
+// ✅ MUST be called as a function
+app.use(clerkMiddleware());
 
+/* ---------- INNGEST & API ROUTES ---------- */
+app.use("/api/inngest", serve({ client: inngest, functions }));
+app.use("/api/chat", chatRoutes);
 
-
-// -------- ROUTES --------
+/* ---------- ROUTES ---------- */
 app.get("/health", (req, res) => {
   res.json({ message: "API is up and running 🚀" });
 });
 
+// app.get("/video-calls",protectRoute, (req, res) => {
+// res.status(200).json({ msg: "This is the protected video calls endpoint", user: req.user });
+  
+// });
 
-// -------- STATIC FILES --------
-const frontendPath = path.join(process.cwd(), "backend", "public");
+/* ---------- STATIC FRONTEND (FIXED) ---------- */
+/*
+  server.js  → backend/src/server.js
+  frontend   → frontend/dist
+*/
+const frontendPath = path.join(__dirname, "../../frontend/dist");
+
+// Serve frontend assets
 app.use(express.static(frontendPath));
 
-app.get(/.*/, (req, res) => {
+// ✅ Express 5 SAFE catch-all (NO *, NO /.*/)
+app.use((req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
-// -------- START SERVER --------
+/* ---------- START SERVER ---------- */
 const startServer = async () => {
-  await connectDB(); // ✅ Mongo connects here
+  try {
+    await connectDB(); // ✅ MongoDB connects once
 
-  app.listen(ENV.PORT, () => {
-    console.log(`🚀 Server is running on port ${ENV.PORT}`);
-  });
+    app.listen(ENV.PORT, () => {
+      console.log(`🚀 Server is running on port ${ENV.PORT}`);
+    });
+  } catch (err) {
+    console.error("❌ Failed to start server:", err);
+    process.exit(1);
+  }
 };
 
 startServer();
