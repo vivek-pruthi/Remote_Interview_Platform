@@ -354,10 +354,11 @@ app.use("/api/chat", chatRoutes);
 app.get("/health", (req, res) => {
   res.json({ message: "API is up and running 🚀" });
 });
-app.get("/video-calls",protectRoute, (req, res) => {
-res.status(200).json({ msg: "This is the protected video calls endpoint", user: req.user });
+
+// app.get("/video-calls",protectRoute, (req, res) => {
+// res.status(200).json({ msg: "This is the protected video calls endpoint", user: req.user });
   
-});
+// });
 
 /* ---------- STATIC FRONTEND (FIXED) ---------- */
 /*
