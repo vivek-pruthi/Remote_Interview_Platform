@@ -318,7 +318,7 @@ import express from "express";
 import path from "path";
 import cors from "cors";
 import { fileURLToPath } from "url";
-
+import { protectRoute } from "./middlewares/protectRoute.js";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
 import { serve } from "inngest/express";
@@ -353,6 +353,10 @@ app.use("/api/chat", chatRoutes);
 /* ---------- ROUTES ---------- */
 app.get("/health", (req, res) => {
   res.json({ message: "API is up and running 🚀" });
+});
+app.get("/video-calls",protectRoute, (req, res) => {
+res.status(200).json({ msg: "This is the protected video calls endpoint", user: req.user });
+  
 });
 
 /* ---------- STATIC FRONTEND (FIXED) ---------- */
