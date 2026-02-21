@@ -170,19 +170,6 @@ app.get("/health", (req, res) => {
   res.json({ message: "API is up and running 🚀" });
 });
 
-// app.get("/books", (req, res) => {
-//   res.json({ message: "Books endpoint working 📚" });
-// });
-
-
-// // when you pass an array of middleware to Express, it automatically flattens abd executes them subsequently , one by one. 
-// app.get("/video-calls",protectRoute, (req, res) => {
-//   res.status(200).json({ msg: "This is the protected video calls endpoint", user: req.user });
-  
-// });
-
-
-
 
 // -------- STATIC FILES --------
 const frontendPath = path.join(process.cwd(), "backend", "public");
