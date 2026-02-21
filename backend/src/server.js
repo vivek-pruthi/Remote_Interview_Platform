@@ -325,6 +325,7 @@ import { serve } from "inngest/express";
 import { inngest, functions } from "./lib/inngest.js";
 import { clerkMiddleware } from "@clerk/express";
 import chatRoutes from "./routes/chatRoutes.js";
+import sessionRoutes from "./routes/sessionRoutes.js";
 
 /* ---------- FIX __dirname (ESM) ---------- */
 const __filename = fileURLToPath(import.meta.url);
@@ -349,6 +350,7 @@ app.use(clerkMiddleware());
 /* ---------- INNGEST & API ROUTES ---------- */
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/chat", chatRoutes);
+app.use("/api/sessions", sessionRoutes);
 
 /* ---------- ROUTES ---------- */
 app.get("/health", (req, res) => {
