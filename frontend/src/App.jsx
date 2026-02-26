@@ -1,10 +1,10 @@
 import { SignedIn , SignedOut, SignInButton,SignOutButton, UserButton, useUser } from "@clerk/clerk-react";
 import { Navigate, Route, Routes } from "react-router";
-import HomePage from "./Pages/HomePage";
+import HomePage from "./Pages/HomePage.jsx";
 
-import ProblemsPage from "./Pages/ProblemsPage";
+import ProblemsPage from "./Pages/ProblemsPage.jsx";
 import { Toaster } from "react-hot-toast";
-import DashboardPage from "./Pages/DashboardPage";
+import DashboardPage from "./Pages/DashboardPage.jsx";
 
 function App() {
 
