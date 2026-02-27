@@ -370,7 +370,7 @@ app.get("/health", (req, res) => {
 // const frontendPath = path.join(__dirname, "../../frontend/dist");
 
 // Serve frontend assets
-app.use(express.static(frontendPath));
+// app.use(express.static(frontendPath));
 
 // ✅ Express 5 SAFE catch-all (NO *, NO /.*/)
 // app.use((req, res) => {
