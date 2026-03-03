@@ -348,7 +348,11 @@ app.use(
 app.use("/api", executeRoutes);
 
 // ✅ MUST be called as a function
-app.use(clerkMiddleware());
+app.use(
+  clerkMiddleware({
+    publicRoutes: ["/api/execute"],
+  })
+);
 
 /* ---------- INNGEST & API ROUTES ---------- */
 app.use("/api/inngest", serve({ client: inngest, functions }));
