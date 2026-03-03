@@ -367,15 +367,15 @@ app.get("/health", (req, res) => {
   server.js  → backend/src/server.js
   frontend   → frontend/dist
 */
-// const frontendPath = path.join(__dirname, "../../frontend/dist");
+const frontendPath = path.join(__dirname, "../../frontend/dist");
 
 // Serve frontend assets
-// app.use(express.static(frontendPath));
+app.use(express.static(frontendPath));
 
 // ✅ Express 5 SAFE catch-all (NO *, NO /.*/)
-// app.use((req, res) => {
-//   res.sendFile(path.join(frontendPath, "index.html"));
-// });
+app.use((req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
 
 /* ---------- START SERVER ---------- */
 const startServer = async () => {
