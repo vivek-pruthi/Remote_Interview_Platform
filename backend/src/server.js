@@ -345,6 +345,8 @@ app.use(
   })
 );
 
+app.use("/api", executeRoutes);
+
 // ✅ MUST be called as a function
 app.use(clerkMiddleware());
 
@@ -352,7 +354,6 @@ app.use(clerkMiddleware());
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/chat", chatRoutes);
 app.use("/api/sessions", sessionRoutes);
-app.use("/api", executeRoutes);
 
 /* ---------- ROUTES ---------- */
 app.get("/health", (req, res) => {
