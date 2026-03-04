@@ -6,7 +6,7 @@ const router = express.Router();
 router.post("/execute", async (req, res) => {
   try {
     const response = await fetch(
-      "https://emkc.org/api/v2/piston/execute",
+      "https://piston.helloworld.rs/api/v2/execute",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
