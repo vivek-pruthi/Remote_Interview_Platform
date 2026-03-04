@@ -15,6 +15,7 @@ router.post("/execute", async (req, res) => {
     );
 
     const data = await response.json();
+    console.log("Piston response:", data);
     res.json(data);
   } catch (err) {
     console.error(err);
