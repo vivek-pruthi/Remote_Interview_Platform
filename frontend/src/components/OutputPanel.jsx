@@ -8,7 +8,9 @@ function OutputPanel({ output }) {
         {output === null ? (
           <p className="text-base-content/50 text-sm">Click "Run Code" to see the output here...</p>
         ) : output.success ? (
-          <pre className="text-sm font-mono text-success whitespace-pre-wrap">{output.output}</pre>
+          <pre className="text-sm font-mono text-success whitespace-pre-wrap">
+          {output.output || "No output"}
+          </pre>
         ) : (
           <div>
             {output.output && (

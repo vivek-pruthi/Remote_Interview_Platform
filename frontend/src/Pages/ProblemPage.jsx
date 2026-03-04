@@ -56,29 +56,18 @@ function ProblemPage() {
     });
   };
 
-  const normalizeOutput = (output) => {
-    // normalize output for comparison (trim whitespace, handle different spacing)
-    return output
-      .trim()
-      .split("\n")
-      .map((line) =>
-        line
-          .trim()
-          // remove spaces after [ and before ]
-          .replace(/\[\s+/g, "[")
-          .replace(/\s+\]/g, "]")
-          // normalize spaces around commas to single space after comma
-          .replace(/\s*,\s*/g, ",")
-      )
-      .filter((line) => line.length > 0)
-      .join("\n");
-  };
+const normalizeOutput = (output) => {
+  return output
+    .trim()
+    .replace(/\r/g, "")     // fix Windows line endings
+    .replace(/\s+/g, "");   // remove ALL whitespace
+};
 
   const checkIfTestsPassed = (actualOutput, expectedOutput) => {
     const normalizedActual = normalizeOutput(actualOutput);
     const normalizedExpected = normalizeOutput(expectedOutput);
 
-    return normalizedActual == normalizedExpected;
+    return normalizedActual === normalizedExpected;
   };
 
   const handleRunCode = async () => {
