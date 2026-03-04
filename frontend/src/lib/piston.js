@@ -43,21 +43,18 @@ export async function executeCode(language, code) {
       };
     }
 
-    const stdout = data.run?.stdout || data.output || "";
-const stderr = data.run?.stderr || "";
+    if (data.stderr) {
+      return {
+        success: false,
+        output: data.output,
+        error: data.stderr,
+      };
+    }
 
-if (stderr) {
-  return {
-    success: false,
-    output: stdout,
-    error: stderr,
-  };
-}
-
-return {
-  success: true,
-  output: stdout || "No output",
-};
+    return {
+      success: true,
+      output: data.output || "No output",
+    };
   } catch (error) {
     return {
       success: false,

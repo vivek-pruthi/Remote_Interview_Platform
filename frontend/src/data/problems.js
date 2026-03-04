@@ -39,9 +39,9 @@ export const PROBLEMS = {
 }
 
 // Test cases
-console.log(JSON.stringify(twoSum([2, 7, 11, 15], 9))); // Expected: [0, 1]
-console.log(JSON.stringify(twoSum([3, 2, 4], 6))); // Expected: [1, 2]
-console.log(JSON.stringify(twoSum([3, 3], 6))); // Expected: [0, 1]`,
+console.log(twoSum([2, 7, 11, 15], 9)); // Expected: [0, 1]
+console.log(twoSum([3, 2, 4], 6)); // Expected: [1, 2]
+console.log(twoSum([3, 3], 6)); // Expected: [0, 1]`,
       python: `def twoSum(nums, target):
     # Write your solution here
     pass
@@ -102,11 +102,11 @@ class Solution {
 // Test cases
 let test1 = ["h","e","l","l","o"];
 reverseString(test1);
-console.log(JSON.stringify(test1)); // Expected: ["o","l","l","e","h"]
+console.log(test1); // Expected: ["o","l","l","e","h"]
 
 let test2 = ["H","a","n","n","a","h"];
 reverseString(test2);
-console.log(JSON.stringify(test2)); // Expected: ["h","a","n","n","a","H"]`,
+console.log(test2); // Expected: ["h","a","n","n","a","H"]`,
       python: `def reverseString(s):
     # Write your solution here
     pass
