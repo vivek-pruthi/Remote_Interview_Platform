@@ -72,7 +72,7 @@ app.use((req, res) => {
 const startServer = async () => {
   try {
     await connectDB(); // ✅ MongoDB connects once
-
+    const PORT = process.env.PORT || 5173;
     app.listen(ENV.PORT, () => {
       console.log(`🚀 Server is running on port ${ENV.PORT}`);
     });
