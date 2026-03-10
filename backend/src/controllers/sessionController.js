@@ -15,7 +15,13 @@ export async function createSession(req, res) {
         const callId = `session_${Date.now()}_${Math.random().toString(36).substring(7)}`;
 
         // Create session in database
-        const session = await Session.create({ problem, difficulty, host: userId, callId });
+        const session = await Session.create({
+          problem,
+          difficulty,
+          host: userId,
+          callId,
+          status: "active"   // ✅ ADD THIS
+        });
 
         // Create stream video call
         await streamClient.video.call("default", callId).getOrCreate({
@@ -79,6 +85,9 @@ export async function getSessionById(req, res) {
     try {
         // Fixed: changed 'parms' to 'params'
         const { id } = req.params;
+         if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid session id" });
+    }
 
         if (!id) {
             return res.status(400).json({ message: "Session ID is required" });
@@ -94,7 +103,7 @@ export async function getSessionById(req, res) {
         }
         res.status(200).json({ session });
     } catch (error) {
-        console.error("Error fetching session by id:", error.message);
+        console.error("Error fetching session by id:", error);
         res.status(500).json({ message: "Failed to fetch session" });
     }
 }
