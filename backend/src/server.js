@@ -1,8 +1,8 @@
 import express from "express";
 import path from "path";
 import cors from "cors";
+import axios from "axios";
 import { fileURLToPath } from "url";
-import { protectRoute } from "./middlewares/protectRoute.js";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
 import { serve } from "inngest/express";
@@ -29,7 +29,7 @@ app.use(
   })
 );
 
-app.use("/api", executeRoutes);
+app.use("/api/execute", executeRoutes);
 
 // ✅ MUST be called as a function
 app.use(
@@ -38,6 +38,47 @@ app.use(
   })
 );
 
+// --- NEW: Code Execution Route (Glot.io Bridge) ---
+app.post("/api/execute", async (req, res) => {
+  const { language, code } = req.body;
+  const GLOT_TOKEN = process.env.VITE_GLOT_TOKEN; 
+
+  if (!language || !code) {
+    return res.status(400).json({ success: false, error: "Language and code are required." });
+  }
+
+  try {
+    const response = await axios.post(
+      `https://glot.io/api/run/${language.toLowerCase()}/latest`,
+      {
+        files: [
+          {
+            name: language.toLowerCase() === "java" ? "Main.java" : "main", 
+            content: code,
+          },
+        ],
+      },
+      {
+        headers: {
+          Authorization: "Token " + process.env.GLOT_TOKEN,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    res.json({
+      success: response.data.stderr === "" && response.data.error === "",
+      output: response.data.stdout,
+      error: response.data.stderr || response.data.error,
+    });
+  } catch (error) {
+    console.error("Glot execution error:", error.response?.data || error.message);
+    res.status(500).json({ 
+      success: false, 
+      error: error.response?.data?.message || "Internal server error during code execution." 
+    });
+  }
+});
 /* ---------- INNGEST & API ROUTES ---------- */
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/chat", chatRoutes);

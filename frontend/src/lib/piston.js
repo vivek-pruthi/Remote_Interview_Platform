@@ -1,74 +1,47 @@
-// Frontend Piston Wrapper (Calls Your Backend, NOT Piston Directly)
+// Detect if we are running locally or on Render
+const isLocal = window.location.hostname === "localhost";
+const BACKEND_URL = isLocal 
+  ? "http://localhost:5000/api/execute" 
+  : "https://your-backend-name.onrender.com/api/execute";
 
-const LANGUAGE_VERSIONS = {
-  javascript: { language: "javascript", version: "18.15.0" },
-  python: { language: "python", version: "3.10.0" },
-  java: { language: "java", version: "15.0.2" },
-};
-
+/**
+ * Calls your InterCode backend to execute code via the Glot.io bridge.
+ */
 export async function executeCode(language, code) {
   try {
-    const languageConfig = LANGUAGE_VERSIONS[language];
-
-    if (!languageConfig) {
-      return {
-        success: false,
-        error: `Unsupported language: ${language}`,
-      };
-    }
-
-    const response = await fetch("/api/execute", {
+    const response = await fetch(BACKEND_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        language: languageConfig.language,
-        version: languageConfig.version,
-        files: [
-          {
-            name: `main.${getFileExtension(language)}`,
-            content: code,
-          },
-        ],
+      body: JSON.stringify({ 
+        language: language.toLowerCase(), 
+        code 
       }),
     });
 
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      return { 
+        success: false, 
+        error: `Server Error (${response.status}): ${errorData.error || "Execution failed"}` 
+      };
+    }
+
     const data = await response.json();
 
-    if (!response.ok) {
-      return {
-        success: false,
-        error: data.message || "Execution failed",
-      };
-    }
-
-    if (data.stderr) {
-      return {
-        success: false,
-        output: data.output,
-        error: data.stderr,
-      };
-    }
-
+    // Data format returned by our new backend route:
+    // { success: boolean, output: string, error: string }
     return {
-      success: true,
-      output: data.output || "No output",
+      success: data.success,
+      output: data.output || (data.success ? "No output" : ""),
+      error: data.error || "",
     };
+
   } catch (error) {
     return {
       success: false,
-      error: `Failed to execute code: ${error.message}`,
+      error: `Connection Failed: ${error.message}. Is the backend running?`,
     };
   }
-}
-
-function getFileExtension(language) {
-  const extensions = {
-    javascript: "js",
-    python: "py",
-    java: "java",
-  };
-
-  return extensions[language] || "txt";
 }

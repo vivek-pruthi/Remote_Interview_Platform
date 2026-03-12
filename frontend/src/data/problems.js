@@ -339,6 +339,254 @@ print(maxArea([1,1]))  # Expected: 1`,
       java: "49\n1",
     },
   },
+
+  "best-time-to-buy-sell-stock": {
+  id: "best-time-to-buy-sell-stock",
+  title: "Best Time to Buy and Sell Stock",
+  difficulty: "Easy",
+  category: "Array • Dynamic Programming",
+  description: {
+    text: "You are given an array prices where prices[i] is the price of a stock on the ith day. Return the maximum profit you can achieve from a single buy and sell.",
+    notes: [
+      "You must buy before you sell.",
+      "If no profit is possible, return 0."
+    ],
+  },
+  examples: [
+    {
+      input: "prices = [7,1,5,3,6,4]",
+      output: "5",
+      explanation: "Buy at 1 and sell at 6."
+    },
+    {
+      input: "prices = [7,6,4,3,1]",
+      output: "0"
+    }
+  ],
+  constraints: [
+    "1 ≤ prices.length ≤ 10⁵",
+    "0 ≤ prices[i] ≤ 10⁴"
+  ],
+  starterCode: {
+    javascript: `function maxProfit(prices) {
+  // Write your solution here
+  
+}
+
+// Test cases
+console.log(maxProfit([7,1,5,3,6,4])); // Expected: 5
+console.log(maxProfit([7,6,4,3,1])); // Expected: 0`,
+    python: `def maxProfit(prices):
+    # Write your solution here
+    pass
+
+# Test cases
+print(maxProfit([7,1,5,3,6,4]))  # Expected: 5
+print(maxProfit([7,6,4,3,1]))  # Expected: 0`,
+    java: `class Solution {
+    public static int maxProfit(int[] prices) {
+        // Write your solution here
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(maxProfit(new int[]{7,1,5,3,6,4})); // Expected: 5
+        System.out.println(maxProfit(new int[]{7,6,4,3,1})); // Expected: 0
+    }
+}`
+  },
+  expectedOutput: {
+    javascript: "5\n0",
+    python: "5\n0",
+    java: "5\n0"
+  }
+  },
+
+  "contains-duplicate": {
+  id: "contains-duplicate",
+  title: "Contains Duplicate",
+  difficulty: "Easy",
+  category: "Array • Hash Table",
+  description: {
+    text: "Given an integer array nums, return true if any value appears at least twice in the array.",
+    notes: [],
+  },
+  examples: [
+    {
+      input: "nums = [1,2,3,1]",
+      output: "true"
+    },
+    {
+      input: "nums = [1,2,3,4]",
+      output: "false"
+    }
+  ],
+  constraints: [
+    "1 ≤ nums.length ≤ 10⁵",
+    "-10⁹ ≤ nums[i] ≤ 10⁹"
+  ],
+  starterCode: {
+    javascript: `function containsDuplicate(nums) {
+  // Write your solution here
+  
+}
+
+// Test cases
+console.log(containsDuplicate([1,2,3,1])); // Expected: true
+console.log(containsDuplicate([1,2,3,4])); // Expected: false`,
+    python: `def containsDuplicate(nums):
+    # Write your solution here
+    pass
+
+# Test cases
+print(containsDuplicate([1,2,3,1]))  # Expected: True
+print(containsDuplicate([1,2,3,4]))  # Expected: False`,
+    java: `class Solution {
+    public static boolean containsDuplicate(int[] nums) {
+        // Write your solution here
+        return false;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(containsDuplicate(new int[]{1,2,3,1})); // Expected: true
+        System.out.println(containsDuplicate(new int[]{1,2,3,4})); // Expected: false
+    }
+}`
+  },
+  expectedOutput: {
+    javascript: "true\nfalse",
+    python: "True\nFalse",
+    java: "true\nfalse"
+  }
+  },
+
+  "climbing-stairs": {
+  id: "climbing-stairs",
+  title: "Climbing Stairs",
+  difficulty: "Easy",
+  category: "Dynamic Programming",
+  description: {
+    text: "You are climbing a staircase. It takes n steps to reach the top. Each time you can climb either 1 or 2 steps.",
+    notes: [
+      "Return the number of distinct ways to reach the top."
+    ],
+  },
+  examples: [
+    {
+      input: "n = 2",
+      output: "2"
+    },
+    {
+      input: "n = 3",
+      output: "3"
+    }
+  ],
+  constraints: [
+    "1 ≤ n ≤ 45"
+  ],
+  starterCode: {
+    javascript: `function climbStairs(n) {
+  // Write your solution here
+  
+}
+
+// Test cases
+console.log(climbStairs(2)); // Expected: 2
+console.log(climbStairs(3)); // Expected: 3`,
+    python: `def climbStairs(n):
+    # Write your solution here
+    pass
+
+# Test cases
+print(climbStairs(2))  # Expected: 2
+print(climbStairs(3))  # Expected: 3`,
+    java: `class Solution {
+    public static int climbStairs(int n) {
+        // Write your solution here
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(climbStairs(2)); // Expected: 2
+        System.out.println(climbStairs(3)); // Expected: 3
+    }
+}`
+  },
+  expectedOutput: {
+    javascript: "2\n3",
+    python: "2\n3",
+    java: "2\n3"
+  }
+  },
+
+  "valid-parentheses": {
+  id: "valid-parentheses",
+  title: "Valid Parentheses",
+  difficulty: "Easy",
+    category: "String • Stack",
+    description: {
+        text: "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.",
+        notes: [
+            "An input string is valid if:",
+            "Open brackets must be closed by the same type of brackets.",
+            "Open brackets must be closed in the correct order."
+        ],
+    },
+    examples: [
+        {
+            input: 's = "()"',
+            output: "true"
+        },
+        {
+            input: 's = "()[]{}"',
+            output: "true"
+        },
+        {
+            input: 's = "(]"',
+            output: "false"
+        }
+    ],
+    constraints: [
+        "1 ≤ s.length ≤ 10⁴",
+        "s consists of parentheses only '()[]{}'"
+    ],
+    starterCode: {
+        javascript: `function isValid(s) {
+  // Write your solution here
+}
+
+// Test cases
+console.log(isValid("()")); // Expected: true
+console.log(isValid("()[]{}")); // Expected: true
+console.log(isValid("(]")); // Expected: false`,
+        python: `def isValid(s):
+    # Write your solution here
+    pass
+# Test cases
+print(isValid("()"))  # Expected: True
+print(isValid("()[]{}"))  # Expected: True
+print(isValid("(]"))  # Expected: False`,
+        java: `class Solution {
+    public static boolean isValid(String s) {
+        // Write your solution here
+        return false;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(isValid("()")); // Expected: true
+        System.out.println(isValid("()[]{}")); // Expected: true
+        System.out.println(isValid("(]")); // Expected: false
+    }
+}`
+    },
+    expectedOutput: {
+        javascript: "true\ntrue\nfalse",
+        python: "True\nTrue\nFalse",
+        java: "true\ntrue\nfalse"
+    }
+  },
+  
+
 };
 
 export const LANGUAGE_CONFIG = {
