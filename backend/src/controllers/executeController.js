@@ -3,14 +3,6 @@ import axios from "axios";
 export const runCode = async (req, res) => {
   try {
     const { language, code } = req.body;
-    const glotToken = process.env.GLOT_API_KEY || process.env.GLOT_TOKEN;
-
-    if (!glotToken) {
-      return res.status(500).json({
-        success: false,
-        error: "Missing GLOT_API_KEY or GLOT_TOKEN in environment variables",
-      });
-    }
 
     const response = await axios.post(
       `https://run.glot.io/languages/${language}/latest`,
@@ -24,7 +16,7 @@ export const runCode = async (req, res) => {
       },
       {
         headers: {
-          Authorization: `Token ${glotToken}`,
+          Authorization: `Token ${process.env.GLOT_API_KEY}`,
           "Content-Type": "application/json"
         }
       }
