@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: remote-interview-platform
+    env: node
+    rootDir: .
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_URL
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+      - key: VITE_API_URL
+        value: /api
+      - key: VITE_CLERK_PUBLISHABLE_KEY
+        sync: false
+      - key: STREAM_API_KEY
+        sync: false
+      - key: STREAM_API_SECRET
+        sync: false
+      - key: INNGEST_EVENT_KEY
+        sync: false
+      - key: INNGEST_SIGNING_KEY
+        sync: false
+      - key: GLOT_TOKEN
+        sync: false

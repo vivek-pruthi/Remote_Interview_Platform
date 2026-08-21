@@ -1,15 +1,12 @@
-// Detect if we are running locally or on Render
-const isLocal = window.location.hostname === "localhost";
-const BACKEND_URL = isLocal 
-  ? "http://localhost:5000/api/execute" 
-  : "https://remote-interview-platform-1vdf.onrender.com/api/execute";
+const apiBaseUrl = import.meta.env.VITE_API_URL || "/api";
+const executeUrl = `${apiBaseUrl.replace(/\/$/, "")}/execute`;
 
 /**
  * Calls your InterCode backend to execute code via the Glot.io bridge.
  */
 export async function executeCode(language, code) {
   try {
-    const response = await fetch(BACKEND_URL, {
+    const response = await fetch(executeUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -41,10 +41,17 @@ app.use(
 // --- NEW: Code Execution Route (Glot.io Bridge) ---
 app.post("/api/execute", async (req, res) => {
   const { language, code } = req.body;
-  const GLOT_TOKEN = process.env.VITE_GLOT_TOKEN; 
+  const glotToken = process.env.GLOT_TOKEN || process.env.GLOT_API_KEY;
 
   if (!language || !code) {
     return res.status(400).json({ success: false, error: "Language and code are required." });
+  }
+
+  if (!glotToken) {
+    return res.status(500).json({
+      success: false,
+      error: "Missing GLOT_TOKEN or GLOT_API_KEY in environment variables.",
+    });
   }
 
   try {
@@ -60,7 +67,7 @@ app.post("/api/execute", async (req, res) => {
       },
       {
         headers: {
-          Authorization: "Token " + process.env.GLOT_TOKEN,
+          Authorization: "Token " + glotToken,
           "Content-Type": "application/json",
         },
       }
