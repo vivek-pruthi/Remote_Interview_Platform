@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/clerk-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useEndSession, useJoinSession, useSessionById } from "../hooks/useSessions.js";
 import { PROBLEMS } from "../data/problems.js";
@@ -45,6 +45,7 @@ function SessionPage() {
 
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
   const [code, setCode] = useState(problemData?.starterCode?.[selectedLanguage] || "");
+  const isRemoteCodeChange = useRef(false);
 
   // auto-join session if user is not already a participant and not the host
   useEffect(() => {
@@ -62,6 +63,36 @@ function SessionPage() {
 
     if (session.status === "completed") navigate("/dashboard");
   }, [session, loadingSession, navigate]);
+
+  // Receive code changes from the other participant
+  useEffect(() => {
+    if (!call) return;
+
+    const unsubscribe = call.on("custom", (event) => {
+      console.log("CUSTOM EVENT RECEIVED:", event);
+      const customEvent = event;
+
+      if (customEvent.custom?.type !== "code-update") return;
+
+      const { code: remoteCode, language: remoteLanguage } = customEvent.custom.payload;
+
+      isRemoteCodeChange.current = true;
+
+      if (remoteLanguage && remoteLanguage !== selectedLanguage) {
+        setSelectedLanguage(remoteLanguage);
+      }
+
+      if (typeof remoteCode === "string") {
+        setCode(remoteCode);
+      }
+
+      setTimeout(() => {
+        isRemoteCodeChange.current = false;
+      }, 0);
+    });
+
+    return unsubscribe;
+  }, [call, selectedLanguage]);
 
   // update code when problem loads or changes
   useEffect(() => {
@@ -237,7 +268,19 @@ function SessionPage() {
                       code={code}
                       isRunning={isRunning}
                       onLanguageChange={handleLanguageChange}
-                      onCodeChange={(value) => setCode(value)}
+                      onCodeChange={(value) => {
+                        setCode(value);
+
+                        if (isRemoteCodeChange.current || !call) return;
+
+                        call.sendCustomEvent({
+                          type: "code-update",
+                          payload: {
+                            code: value,
+                            language: selectedLanguage,
+                          },
+                        });
+                      }}
                       onRunCode={handleRunCode}
                     />
                   </Panel>
